@@ -1,0 +1,125 @@
+{
+  "_provenance": "Synthetic enrolments, intake emails and document submissions written for Project 040. All people, emails and phone numbers are fictional (.test domain).",
+  "enrolments": [
+    {
+      "customer_ref": "CUS-0001", "programme": "SAP", "created_days_ago": 9, "due_in_days": 12,
+      "intake_text": "Hi team, I'd like to join the Study-Abroad Pathway for the spring intake. I've attached my passport scan and my school transcript. My IELTS test is booked so I will send the score next week. Paid the deposit by bank transfer yesterday. Thanks, Aria",
+      "submissions": [
+        {"doc_code": "PASSPORT", "filename": "aria_passport_scan.pdf", "note": "Passport photo page", "status": "verified", "days_ago": 8},
+        {"doc_code": "TRANSCRIPT", "filename": "grade12_transcript.pdf", "note": "Final year marksheet", "status": "submitted", "days_ago": 8},
+        {"doc_code": "FEE_RECEIPT", "filename": "bank_transfer_receipt.jpg", "note": "Deposit payment", "status": "needs_review", "days_ago": 7, "confidence": 0.52}
+      ]
+    },
+    {
+      "customer_ref": "CUS-0002", "programme": "DSB", "created_days_ago": 14, "due_in_days": 5,
+      "intake_text": "Hello, enrolling for the data science bootcamp. Sending my aadhaar card, B.Tech degree certificate, updated CV and the fee receipt. I'll sign the learner agreement once I get it.",
+      "submissions": [
+        {"doc_code": "ID_PROOF", "filename": "aadhaar_card.jpg", "note": "ID", "status": "verified", "days_ago": 13},
+        {"doc_code": "EDU_CERT", "filename": "btech_degree_certificate.pdf", "note": "Degree", "status": "verified", "days_ago": 13},
+        {"doc_code": "CV", "filename": "rohan_verma_resume_2026.pdf", "note": "Updated resume", "status": "verified", "days_ago": 13},
+        {"doc_code": "FEE_RECEIPT", "filename": "fee_receipt_DSB.pdf", "note": "Full fee paid", "status": "verified", "days_ago": 12}
+      ]
+    },
+    {
+      "customer_ref": "CUS-0003", "programme": "CLP", "created_days_ago": 3, "due_in_days": 20,
+      "intake_text": "Bonjour! My manager nominated me for the Corporate Leadership Programme. HR will send the sponsorship letter on company letterhead. Attaching my CV for now.",
+      "submissions": [
+        {"doc_code": "CV", "filename": "lena_moreau_cv.pdf", "note": "CV", "status": "submitted", "days_ago": 2}
+      ]
+    },
+    {
+      "customer_ref": "CUS-0004", "programme": "PCP", "created_days_ago": 21, "due_in_days": -2,
+      "intake_text": "Signing up for PMP exam prep. Here is my driving licence and experience letter from my employer.",
+      "submissions": [
+        {"doc_code": "ID_PROOF", "filename": "driving_licence.png", "note": "Driving licence", "status": "verified", "days_ago": 20},
+        {"doc_code": "EXPERIENCE_LETTER", "filename": "experience_letter_2024.pdf", "note": "Experience letter", "status": "rejected", "days_ago": 20, "rejection_reason": "Letter does not state the number of months of project management experience."}
+      ]
+    },
+    {
+      "customer_ref": "CUS-0005", "programme": "SAP", "created_days_ago": 30, "due_in_days": -5,
+      "intake_text": "Hi, I want to study abroad through your pathway programme. Attaching everything: passport, transcript, TOEFL score report, photo, deposit receipt and signed agreement.",
+      "submissions": [
+        {"doc_code": "PASSPORT", "filename": "passport.pdf", "note": "", "status": "verified", "days_ago": 29},
+        {"doc_code": "TRANSCRIPT", "filename": "transcript_official.pdf", "note": "", "status": "verified", "days_ago": 29},
+        {"doc_code": "ENGLISH_TEST", "filename": "toefl_score_report.pdf", "note": "TOEFL iBT", "status": "verified", "days_ago": 29},
+        {"doc_code": "PHOTO", "filename": "headshot.jpg", "note": "", "status": "verified", "days_ago": 29},
+        {"doc_code": "FEE_RECEIPT", "filename": "deposit_receipt.pdf", "note": "", "status": "verified", "days_ago": 28},
+        {"doc_code": "CONSENT_FORM", "filename": "signed_learner_agreement.pdf", "note": "", "status": "verified", "days_ago": 28}
+      ],
+      "completed": true
+    },
+    {
+      "customer_ref": "CUS-0006", "programme": "DSB", "created_days_ago": 1, "due_in_days": 25,
+      "intake_text": "I'm interested in the data science bootcamp starting next month. What documents do you need from me?",
+      "submissions": []
+    },
+    {
+      "customer_ref": "CUS-0007", "programme": "CLP", "created_days_ago": 11, "due_in_days": 8,
+      "intake_text": "Hello! Enrolling for the leadership programme. Attached: passport, sponsorship letter from HR, CV and the signed learner agreement. Photo to follow.",
+      "submissions": [
+        {"doc_code": "ID_PROOF", "filename": "sofia_passport.jpg", "note": "", "status": "verified", "days_ago": 10},
+        {"doc_code": "EMPLOYER_LETTER", "filename": "hr_sponsorship_letter.pdf", "note": "", "status": "submitted", "days_ago": 10},
+        {"doc_code": "CV", "filename": "sofia_lindqvist_cv.pdf", "note": "", "status": "submitted", "days_ago": 10},
+        {"doc_code": "CONSENT_FORM", "filename": "learner_agreement_signed.pdf", "note": "", "status": "submitted", "days_ago": 9}
+      ]
+    },
+    {
+      "customer_ref": "CUS-0008", "programme": "PCP", "created_days_ago": 6, "due_in_days": 10,
+      "intake_text": "Hola, I want to prepare for the AWS cloud certification. Paid the course fee online. ID attached.",
+      "submissions": [
+        {"doc_code": "ID_PROOF", "filename": "national_id_card.jpg", "note": "DNI", "status": "submitted", "days_ago": 5},
+        {"doc_code": "FEE_RECEIPT", "filename": "online_payment_confirmation.pdf", "note": "", "status": "verified", "days_ago": 5}
+      ]
+    },
+    {
+      "customer_ref": "CUS-0009", "programme": "SAP", "created_days_ago": 4, "due_in_days": 18,
+      "intake_text": "Hi, my daughter and I would like to know about the study abroad pathway. Sharing my passport copy and her 12th grade marksheet. English test not taken yet.",
+      "submissions": [
+        {"doc_code": "PASSPORT", "filename": "passport_copy.pdf", "note": "", "status": "submitted", "days_ago": 3},
+        {"doc_code": "TRANSCRIPT", "filename": "12th_marksheet.jpg", "note": "", "status": "submitted", "days_ago": 3}
+      ]
+    },
+    {
+      "customer_ref": "CUS-0010", "programme": "DSB", "created_days_ago": 18, "due_in_days": 1,
+      "intake_text": "Joining the bootcamp. Driver license, diploma, resume, payment receipt and signed agreement attached. My laptop has 16GB RAM.",
+      "submissions": [
+        {"doc_code": "ID_PROOF", "filename": "drivers_license.jpg", "note": "", "status": "verified", "days_ago": 17},
+        {"doc_code": "EDU_CERT", "filename": "diploma.pdf", "note": "", "status": "verified", "days_ago": 17},
+        {"doc_code": "CV", "filename": "noah_resume.pdf", "note": "", "status": "verified", "days_ago": 17},
+        {"doc_code": "FEE_RECEIPT", "filename": "receipt.pdf", "note": "", "status": "verified", "days_ago": 17},
+        {"doc_code": "CONSENT_FORM", "filename": "agreement_signed.pdf", "note": "", "status": "submitted", "days_ago": 16},
+        {"doc_code": "LAPTOP_DECL", "filename": "laptop_spec.txt", "note": "16GB RAM, i7", "status": "verified", "days_ago": 16}
+      ]
+    },
+    {
+      "customer_ref": "CUS-0011", "programme": "PCP", "created_days_ago": 2, "due_in_days": 14,
+      "intake_text": "Registering for PRINCE2 prep. Will upload documents this weekend.",
+      "submissions": []
+    },
+    {
+      "customer_ref": "CUS-0012", "programme": "CLP", "created_days_ago": 25, "due_in_days": -1,
+      "intake_text": "Company is sponsoring me for the leadership course. Attaching ID and CV.",
+      "submissions": [
+        {"doc_code": "ID_PROOF", "filename": "kimlik.jpg", "note": "National ID", "status": "verified", "days_ago": 24},
+        {"doc_code": "CV", "filename": "yusuf_cv.pdf", "note": "", "status": "verified", "days_ago": 24}
+      ]
+    },
+    {
+      "customer_ref": "CUS-0013", "programme": "DSB", "created_days_ago": 7, "due_in_days": 12,
+      "intake_text": "Hallo! Signing up for the data science bootcamp. Here's my Personalausweis (ID card), master's certificate and CV.",
+      "submissions": [
+        {"doc_code": "ID_PROOF", "filename": "personalausweis.png", "note": "", "status": "submitted", "days_ago": 6},
+        {"doc_code": "EDU_CERT", "filename": "masters_certificate.pdf", "note": "", "status": "verified", "days_ago": 6},
+        {"doc_code": "CV", "filename": "hannah_becker_lebenslauf.pdf", "note": "Lebenslauf / CV", "status": "submitted", "days_ago": 6}
+      ]
+    },
+    {
+      "customer_ref": "CUS-0014", "programme": "SAP", "created_days_ago": 5, "due_in_days": 16,
+      "intake_text": "Hello, applying for the pathway. Attached passport and a photo. Will pay the deposit after my scholarship decision.",
+      "submissions": [
+        {"doc_code": "PASSPORT", "filename": "kofi_passport.pdf", "note": "", "status": "verified", "days_ago": 4},
+        {"doc_code": "PHOTO", "filename": "kofi_photo.jpg", "note": "", "status": "submitted", "days_ago": 4}
+      ]
+    }
+  ]
+}

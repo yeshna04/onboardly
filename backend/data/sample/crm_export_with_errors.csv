@@ -1,0 +1,8 @@
+customer_ref,full_name,email,phone,country
+CUS-0101,Elif Arslan,elif.arslan@learner.test,+90 500 000 0201,Turkey
+CUS-0102,,missing.name@learner.test,+1 555 010 0202,United States
+CUS-0103,Marco Bianchi,not-an-email,+39 300 000 0203,Italy
+CUS-0104,Ines Duarte,ines.duarte@learner.test,+351 910 000 204,Portugal
+CUS-0104,Ines Duarte (duplicate),ines.duarte@learner.test,+351 910 000 204,Portugal
+CUS-0105,Sam Okoye,sam.okoye@learner.test,phone?? call me,Nigeria
+CUS-0001,Aria Kestrel,aria.kestrel@learner.test,+44 7700 900101,United Kingdom

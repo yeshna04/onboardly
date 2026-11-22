@@ -1,0 +1,34 @@
+# secrets
+.env
+*.env
+!.env.example
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# runtime data
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/db/*.db-wal
+backend/db/*.db-shm
+
+# node
+node_modules/
+frontend/.vite/
+
+# os / editors
+.DS_Store
+.idea/
+.vscode/
+
+# local database (may hold real test sign-ups) – Render seeds its own synthetic copy
+backend/db/*.db
+
+# build output – Render builds the frontend itself
+frontend/dist/
+
+# local Claude Code config
+.claude/

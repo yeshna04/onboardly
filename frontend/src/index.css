@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root { color-scheme: light; }
+  .dark { color-scheme: dark; }
+  html { -webkit-font-smoothing: antialiased; }
+  body { @apply bg-cream text-stone-900 dark:bg-plum-950 dark:text-stone-100; font-feature-settings: "cv11", "ss01"; }
+  ::selection { @apply bg-brand-200 text-brand-950 dark:bg-accent-700 dark:text-white; }
+  :focus-visible { @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-cream dark:ring-offset-plum-950; }
+}
+
+@layer components {
+  /* Glassy cards: let the animated background glow through a little. */
+  .card {
+    @apply rounded-2xl border border-orange-900/[0.07] bg-white/80 shadow-card backdrop-blur-xl
+      dark:border-white/[0.07] dark:bg-plum-900/70;
+  }
+  .card-pad { @apply p-5 sm:p-6; }
+  .label { @apply mb-1.5 block text-[13px] font-medium text-stone-700 dark:text-stone-300; }
+  .input {
+    @apply block w-full rounded-xl border border-stone-200 bg-white/90 px-3.5 py-2.5 text-sm text-stone-900 placeholder:text-stone-400
+      shadow-sm transition focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/15
+      dark:border-white/10 dark:bg-white/[0.04] dark:text-stone-100 dark:placeholder:text-stone-500;
+  }
+  .input-error { @apply border-rose-400 focus:border-rose-500 focus:ring-rose-500/15 dark:border-rose-500/60; }
+  .muted { @apply text-stone-500 dark:text-stone-400; }
+  .h-page { @apply text-2xl font-semibold tracking-tight sm:text-[28px]; }
+  .scrollbar-thin { scrollbar-width: thin; }
+  /* Animated sunset gradient text for headings */
+  .text-gradient {
+    @apply bg-gradient-to-r from-brand-500 via-accent-500 to-brand-400 bg-clip-text text-transparent animate-gradient-x;
+    background-size: 200% 200%;
+  }
+}
+
+.shake { animation: shake .4s cubic-bezier(.36,.07,.19,.97) both; }
+@keyframes shake { 10%, 90% { transform: translateX(-1px); } 20%, 80% { transform: translateX(2px); } 30%, 50%, 70% { transform: translateX(-4px); } 40%, 60% { transform: translateX(4px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

@@ -1,0 +1,46 @@
+# Render Blueprint – Project 040 Customer Onboarding Checklist Assistant
+# One free web service: Flask (gunicorn) serves the API and the built React app.
+# Render → New → Blueprint → pick this repo. Values marked `sync: false` are typed
+# into the Render dashboard during setup; they are never stored in git.
+services:
+  - type: web
+    name: customer-onboarding
+    runtime: python
+    plan: free
+    region: frankfurt
+    buildCommand: ./render-build.sh
+    # Free instances have no persistent disk: each fresh start re-creates the
+    # synthetic demo database. --keep leaves it alone while the instance is up.
+    startCommand: cd backend && python seed.py --keep && gunicorn run:app --bind 0.0.0.0:$PORT --workers 1 --threads 8 --timeout 120 --access-logfile -
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.6
+      - key: NODE_VERSION
+        value: 20.18.0
+      - key: APP_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      # LLM – Gemini is the active provider. Paste the key in the dashboard.
+      - key: LLM_PROVIDER
+        value: gemini
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-3.5-flash
+      # Officer login for the admin portal (not shared publicly).
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      # Shared code visitors must enter before AI features run (protects the API key's quota).
+      - key: DEMO_ACCESS_CODE
+        sync: false
+      - key: AI_RATE_LIMIT_PER_MINUTE
+        value: "20"
+      - key: DEFAULT_DUE_DAYS
+        value: "21"
+      - key: MAX_UPLOAD_MB
+        value: "5"

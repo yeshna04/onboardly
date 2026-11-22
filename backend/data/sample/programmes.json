@@ -1,0 +1,66 @@
+{
+  "_provenance": "Synthetic sample data created for Project 040. Programmes and requirements are fictional and do not describe any real institution.",
+  "programmes": [
+    {
+      "code": "DSB",
+      "name": "Data Science Bootcamp",
+      "category": "Technology",
+      "duration_weeks": 16,
+      "description": "An intensive 16-week bootcamp covering Python, statistics, machine learning and a capstone data project.",
+      "keywords": "data science, machine learning, python, analytics, bootcamp, ai, data analyst",
+      "documents": [
+        {"doc_code": "ID_PROOF", "name": "Government photo ID", "description": "A clear scan of your passport, national ID card or driving licence.", "why_needed": "We must confirm your identity before issuing a learner account.", "accepted_formats": "pdf,jpg,png", "keywords": "id, passport, id card, identity card, national id, driving licence, driver license, photo id, aadhaar, identity proof, id proof", "is_mandatory": 1, "validity_days": null},
+        {"doc_code": "EDU_CERT", "name": "Highest education certificate", "description": "Your degree or diploma certificate (or final marksheet).", "why_needed": "The bootcamp requires a completed bachelor's degree or equivalent.", "accepted_formats": "pdf,jpg,png", "keywords": "degree, diploma, certificate, marksheet, graduation, bachelor, academic certificate, education certificate", "is_mandatory": 1, "validity_days": null},
+        {"doc_code": "CV", "name": "Current CV / résumé", "description": "An up-to-date CV listing education and work experience.", "why_needed": "Helps us place you in the right cohort and mentor group.", "accepted_formats": "pdf,txt", "keywords": "cv, resume, résumé, curriculum vitae, work history, profile", "is_mandatory": 1, "validity_days": 365},
+        {"doc_code": "FEE_RECEIPT", "name": "Fee payment receipt", "description": "Receipt or bank confirmation for the deposit or full fee.", "why_needed": "Your seat is reserved once payment is confirmed.", "accepted_formats": "pdf,jpg,png", "keywords": "payment, receipt, fee, invoice, deposit, transaction, bank transfer, paid", "is_mandatory": 1, "validity_days": null},
+        {"doc_code": "CONSENT_FORM", "name": "Signed learner agreement", "description": "The learner agreement and data consent form, signed and dated.", "why_needed": "Required before you can access course material.", "accepted_formats": "pdf,jpg,png", "keywords": "consent, agreement, signed form, learner agreement, terms, declaration, signature", "is_mandatory": 1, "validity_days": null},
+        {"doc_code": "LAPTOP_DECL", "name": "Laptop readiness declaration", "description": "A short note confirming your laptop meets the minimum specification.", "why_needed": "Optional — helps our tech team prepare loan equipment if needed.", "accepted_formats": "pdf,txt", "keywords": "laptop, computer, hardware, specification, device, ram", "is_mandatory": 0, "validity_days": null}
+      ]
+    },
+    {
+      "code": "CLP",
+      "name": "Corporate Leadership Programme",
+      "category": "Business",
+      "duration_weeks": 12,
+      "description": "A 12-week programme for new and aspiring managers covering strategy, coaching and team leadership.",
+      "keywords": "leadership, management, manager, corporate, team lead, executive, strategy, coaching",
+      "documents": [
+        {"doc_code": "ID_PROOF", "name": "Government photo ID", "description": "A clear scan of your passport, national ID card or driving licence.", "why_needed": "We must confirm your identity before issuing a learner account.", "accepted_formats": "pdf,jpg,png", "keywords": "id, passport, id card, identity card, national id, driving licence, driver license, photo id, aadhaar, identity proof, id proof", "is_mandatory": 1, "validity_days": null},
+        {"doc_code": "EMPLOYER_LETTER", "name": "Employer sponsorship letter", "description": "A letter on company letterhead confirming sponsorship and your role.", "why_needed": "This programme is employer-sponsored; the letter confirms funding.", "accepted_formats": "pdf", "keywords": "employer letter, sponsorship, sponsor letter, company letter, hr letter, letterhead, nomination", "is_mandatory": 1, "validity_days": 180},
+        {"doc_code": "CV", "name": "Current CV / résumé", "description": "An up-to-date CV listing your management experience.", "why_needed": "Used to group participants by leadership experience.", "accepted_formats": "pdf,txt", "keywords": "cv, resume, résumé, curriculum vitae, work history, profile", "is_mandatory": 1, "validity_days": 365},
+        {"doc_code": "CONSENT_FORM", "name": "Signed learner agreement", "description": "The learner agreement and data consent form, signed and dated.", "why_needed": "Required before you can access course material.", "accepted_formats": "pdf,jpg,png", "keywords": "consent, agreement, signed form, learner agreement, terms, declaration, signature", "is_mandatory": 1, "validity_days": null},
+        {"doc_code": "PHOTO", "name": "Passport-size photo", "description": "A recent colour photo on a plain background.", "why_needed": "Printed on your participant badge.", "accepted_formats": "jpg,png", "keywords": "photo, photograph, headshot, picture, passport size photo, selfie", "is_mandatory": 0, "validity_days": null}
+      ]
+    },
+    {
+      "code": "SAP",
+      "name": "Study-Abroad Pathway",
+      "category": "International",
+      "duration_weeks": 24,
+      "description": "A 24-week foundation pathway preparing learners for undergraduate study at partner universities abroad.",
+      "keywords": "study abroad, university, overseas, pathway, foundation, international, visa, admission",
+      "documents": [
+        {"doc_code": "PASSPORT", "name": "Valid passport", "description": "Photo page of a passport valid for at least 6 months.", "why_needed": "Needed for university admission and the student visa application.", "accepted_formats": "pdf,jpg,png", "keywords": "passport, passport copy, passport scan, photo page, travel document", "is_mandatory": 1, "validity_days": null},
+        {"doc_code": "TRANSCRIPT", "name": "Academic transcript", "description": "Official transcript or final-year marksheets from your school or college.", "why_needed": "Partner universities assess eligibility from your grades.", "accepted_formats": "pdf,jpg,png", "keywords": "transcript, marksheet, mark sheet, grades, academic record, report card, school results", "is_mandatory": 1, "validity_days": null},
+        {"doc_code": "ENGLISH_TEST", "name": "English language test score", "description": "IELTS, TOEFL, PTE or Duolingo English Test score report.", "why_needed": "Universities require proof of English proficiency.", "accepted_formats": "pdf,jpg,png", "keywords": "ielts, toefl, pte, duolingo, english test, language test, test score, band score", "is_mandatory": 1, "validity_days": 730},
+        {"doc_code": "PHOTO", "name": "Passport-size photo", "description": "A recent colour photo on a plain background.", "why_needed": "Required for university and visa forms.", "accepted_formats": "jpg,png", "keywords": "photo, photograph, headshot, picture, passport size photo, selfie", "is_mandatory": 1, "validity_days": null},
+        {"doc_code": "FEE_RECEIPT", "name": "Fee payment receipt", "description": "Receipt or bank confirmation for the pathway deposit.", "why_needed": "Your seat is reserved once payment is confirmed.", "accepted_formats": "pdf,jpg,png", "keywords": "payment, receipt, fee, invoice, deposit, transaction, bank transfer, paid", "is_mandatory": 1, "validity_days": null},
+        {"doc_code": "CONSENT_FORM", "name": "Signed learner agreement", "description": "The learner agreement and data consent form, signed and dated.", "why_needed": "Required before you can access course material.", "accepted_formats": "pdf,jpg,png", "keywords": "consent, agreement, signed form, learner agreement, terms, declaration, signature", "is_mandatory": 1, "validity_days": null}
+      ]
+    },
+    {
+      "code": "PCP",
+      "name": "Professional Certification Prep",
+      "category": "Certification",
+      "duration_weeks": 8,
+      "description": "An 8-week exam-prep course for industry certifications in project management and cloud.",
+      "keywords": "certification, exam prep, pmp, cloud certification, aws, azure, professional exam, prince2",
+      "documents": [
+        {"doc_code": "ID_PROOF", "name": "Government photo ID", "description": "A clear scan of your passport, national ID card or driving licence.", "why_needed": "Exam bodies require the name on your ID to match your registration.", "accepted_formats": "pdf,jpg,png", "keywords": "id, passport, id card, identity card, national id, driving licence, driver license, photo id, aadhaar, identity proof, id proof", "is_mandatory": 1, "validity_days": null},
+        {"doc_code": "EXPERIENCE_LETTER", "name": "Work experience letter", "description": "A letter confirming relevant work experience (months and role).", "why_needed": "Some certifications require minimum hours of experience.", "accepted_formats": "pdf", "keywords": "experience letter, employment letter, work experience, service certificate, relieving letter, hours of experience", "is_mandatory": 1, "validity_days": 365},
+        {"doc_code": "FEE_RECEIPT", "name": "Fee payment receipt", "description": "Receipt or bank confirmation for the course fee.", "why_needed": "Your seat is reserved once payment is confirmed.", "accepted_formats": "pdf,jpg,png", "keywords": "payment, receipt, fee, invoice, deposit, transaction, bank transfer, paid", "is_mandatory": 1, "validity_days": null},
+        {"doc_code": "CONSENT_FORM", "name": "Signed learner agreement", "description": "The learner agreement and data consent form, signed and dated.", "why_needed": "Required before you can access course material.", "accepted_formats": "pdf,jpg,png", "keywords": "consent, agreement, signed form, learner agreement, terms, declaration, signature", "is_mandatory": 1, "validity_days": null}
+      ]
+    }
+  ]
+}

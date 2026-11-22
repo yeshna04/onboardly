@@ -1,0 +1,8 @@
+# Project 040 – Customer Onboarding Checklist Assistant
+# Python 3.10+ required. Everything not listed here is Python standard library
+# (sqlite3, json, re, difflib, unittest, logging, ...).
+Flask>=3.1,<4        # web/API server
+pandas>=2.2          # CRM/LMS CSV import, reporting & analytics
+anthropic>=0.40      # official Claude API SDK (real LLM integration)
+certifi>=2024.2.2   # trusted root certificates for HTTPS calls to the LLM API (macOS Python lacks them)
+gunicorn>=22         # production WSGI server — used only on Render

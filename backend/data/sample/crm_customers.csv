@@ -1,0 +1,15 @@
+customer_ref,full_name,email,phone,country
+CUS-0001,Aria Kestrel,aria.kestrel@learner.test,+44 7700 900101,United Kingdom
+CUS-0002,Rohan Verma,rohan.verma@learner.test,+91 90000 00102,India
+CUS-0003,Lena Moreau,lena.moreau@learner.test,+33 6 00 00 01 03,France
+CUS-0004,Tomasz Nowicki,tomasz.nowicki@learner.test,+48 500 000 104,Poland
+CUS-0005,Amara Okafor,amara.okafor@learner.test,+234 800 000 0105,Nigeria
+CUS-0006,Kenji Watanabe,kenji.watanabe@learner.test,+81 90 0000 0106,Japan
+CUS-0007,Sofia Lindqvist,sofia.lindqvist@learner.test,+46 70 000 01 07,Sweden
+CUS-0008,Diego Alvarez,diego.alvarez@learner.test,+34 600 000 108,Spain
+CUS-0009,Priya Raman,priya.raman@learner.test,+91 90000 00109,India
+CUS-0010,Noah Whitfield,noah.whitfield@learner.test,+1 555 010 0110,United States
+CUS-0011,Mei Chen,mei.chen@learner.test,+65 8000 0111,Singapore
+CUS-0012,Yusuf Demir,yusuf.demir@learner.test,+90 500 000 0112,Turkey
+CUS-0013,Hannah Becker,hannah.becker@learner.test,+49 150 0000 0113,Germany
+CUS-0014,Kofi Mensah,kofi.mensah@learner.test,+233 20 000 0114,Ghana
