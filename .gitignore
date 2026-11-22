@@ -32,3 +32,4 @@ frontend/dist/
 
 # local Claude Code config
 .claude/
+!backend/db/sample_onboarding.db

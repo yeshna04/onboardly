@@ -1,0 +1,65 @@
+# python -m unittest -v   (run 2026-11-23 01:52 IST, Python 3.11.6)
+test_tc08_checklist_compares_required_vs_submitted (tests.test_checklist_and_validation.ChecklistTests.test_tc08_checklist_compares_required_vs_submitted)
+TC08 normal: verified + rejected + missing items give the right counts, outstanding list and next step. ... ok
+test_tc09_old_document_expires_and_status_follows_checklist (tests.test_checklist_and_validation.ChecklistTests.test_tc09_old_document_expires_and_status_follows_checklist)
+TC09 edge: an English test older than its 730-day validity becomes 'expired'; full set → ready_for_review. ... ok
+test_tc11_crm_export_with_bad_rows_is_partially_imported (tests.test_checklist_and_validation.CrmImportTests.test_tc11_crm_export_with_bad_rows_is_partially_imported)
+TC11 edge: CSV with a missing name, bad email, bad phone and duplicates → valid rows imported, bad rows reported. ... ok
+test_tc10_invalid_inputs_raise_validation_errors (tests.test_checklist_and_validation.ValidationTests.test_tc10_invalid_inputs_raise_validation_errors)
+TC10 edge: malformed email, weak password and impossible date are rejected with field messages. ... ok
+test_tc16_claude_success_records_model_usage_and_request_id (tests.test_llm.ClaudeClientTests.test_tc16_claude_success_records_model_usage_and_request_id)
+TC16 normal (mocked API): JSON reply is parsed; model, tokens, stop reason and request id are kept. ... ok
+test_tc17_claude_timeout_auth_error_and_bad_json_fail_safely (tests.test_llm.ClaudeClientTests.test_tc17_claude_timeout_auth_error_and_bad_json_fail_safely)
+TC17 failure (mocked API): timeout, 401 and non-JSON text return error statuses instead of raising. ... LLM call failed: Claude did not answer within 45s.
+LLM call failed: The Claude API key was rejected (401). Check ANTHROPIC_API_KEY.
+ok
+test_tc18_missing_api_key_reports_not_configured (tests.test_llm.ClaudeClientTests.test_tc18_missing_api_key_reports_not_configured)
+TC18 edge: no API key → 'not_configured' without any network call. ... ok
+test_tc19_gemini_retries_a_503_then_succeeds (tests.test_llm.GeminiClientTests.test_tc19_gemini_retries_a_503_then_succeeds)
+TC19 recovery (mocked HTTP): a 503 is retried once, then the JSON answer and usage are recorded. ... ok
+test_tc20_gemini_quota_error_is_reported_not_raised (tests.test_llm.GeminiClientTests.test_tc20_gemini_quota_error_is_reported_not_raised)
+TC20 failure (mocked HTTP): repeated 429 → 'api_error' with a readable quota message. ... Gemini call failed: Gemini rate limit or free-tier quota reached (429) after retries. Try again shortly.
+ok
+test_tc12_grounded_reminder_passes_validation (tests.test_llm.ValidatorTests.test_tc12_grounded_reminder_passes_validation)
+TC12 normal: a reminder that only mentions checklist items and the real due date has no errors. ... ok
+test_tc13_hallucinated_or_unsafe_reminder_is_rejected (tests.test_llm.ValidatorTests.test_tc13_hallucinated_or_unsafe_reminder_is_rejected)
+TC13 edge: invented document, invented date, a link, a promise and a placeholder are all caught. ... ok
+test_tc14_explanation_must_cover_open_items_and_not_verified_ones (tests.test_llm.ValidatorTests.test_tc14_explanation_must_cover_open_items_and_not_verified_ones)
+TC14 edge: an explanation that skips the missing item and re-asks for a verified one is rejected. ... ok
+test_tc15_prompt_pack_renders_versioned_prompts_with_context (tests.test_llm.ValidatorTests.test_tc15_prompt_pack_renders_versioned_prompts_with_context)
+TC15 normal: v1 and v2 prompts exist, render the checklist JSON and reject unknown tasks/versions. ... ok
+test_tc01_intake_email_extracts_service_documents_and_pending_items (tests.test_nlp.NlpPipelineTests.test_tc01_intake_email_extracts_service_documents_and_pending_items)
+TC01 normal: intake email → Study-Abroad Pathway detected; passport/transcript submitted, IELTS pending. ... ok
+test_tc02_empty_input_is_handled_without_errors (tests.test_nlp.NlpPipelineTests.test_tc02_empty_input_is_handled_without_errors)
+TC02 edge: whitespace-only text → no matches, a clear warning, no exception. ... ok
+test_tc03_unsupported_request_is_flagged_for_a_human (tests.test_nlp.NlpPipelineTests.test_tc03_unsupported_request_is_flagged_for_a_human)
+TC03 edge: a refund request → intent 'unsupported' and a route-to-human warning. ... ok
+test_tc04_malformed_text_produces_no_false_matches (tests.test_nlp.NlpPipelineTests.test_tc04_malformed_text_produces_no_false_matches)
+TC04 edge: random symbols / gibberish → no document matches and no detected service. ... ok
+test_tc05_personal_data_is_masked (tests.test_nlp.NlpPipelineTests.test_tc05_personal_data_is_masked)
+TC05 privacy: emails and phone numbers are masked before text is stored or sent to the LLM. ... ok
+test_tc06_upload_is_classified_from_its_file_name (tests.test_nlp.NlpPipelineTests.test_tc06_upload_is_classified_from_its_file_name)
+TC06 normal: 'passport_scan.pdf' → suggested checklist item PASSPORT. ... ok
+test_tc07_dates_are_extracted_in_several_formats (tests.test_nlp.NlpPipelineTests.test_tc07_dates_are_extracted_in_several_formats)
+TC07 normal: ISO, day-month-year and relative dates are recognised. ... ok
+test_tc21_end_to_end_reminder_is_saved_as_a_draft_with_provider_metadata (tests.test_workflow_and_api.AiWorkflowTests.test_tc21_end_to_end_reminder_is_saved_as_a_draft_with_provider_metadata)
+TC21 normal: read → checklist → NLP → prompt → LLM → validate → save; draft waits for human review. ... ok
+test_tc22_ungrounded_output_is_repaired_once_then_falls_back_to_template (tests.test_workflow_and_api.AiWorkflowTests.test_tc22_ungrounded_output_is_repaired_once_then_falls_back_to_template)
+TC22 recovery: two hallucinated replies → one repair attempt, then a labelled template draft. ... ok
+test_tc23_api_failure_still_produces_a_safe_explanation (tests.test_workflow_and_api.AiWorkflowTests.test_tc23_api_failure_still_produces_a_safe_explanation)
+TC23 failure: provider timeout → template explanation, error and status 'timeout' stored for audit. ... ok
+test_tc24_no_matching_record_and_unsupported_requests_are_refused (tests.test_workflow_and_api.AiWorkflowTests.test_tc24_no_matching_record_and_unsupported_requests_are_refused)
+TC24 edge: unknown enrolment → NotFoundError; reminder for a completed enrolment → UnsupportedRequestError. ... ok
+test_tc25_health_and_login_rules (tests.test_workflow_and_api.ApiTests.test_tc25_health_and_login_rules)
+TC25: health check works; wrong password → 401; officer login → 200; learner can't open admin API. ... ok
+test_tc26_writes_without_csrf_header_are_blocked (tests.test_workflow_and_api.ApiTests.test_tc26_writes_without_csrf_header_are_blocked)
+TC26 security: a POST without the X-Requested-With header is rejected (403). ... ok
+test_tc27_demo_learner_cannot_upload (tests.test_workflow_and_api.ApiTests.test_tc27_demo_learner_cannot_upload)
+TC27 edge: the shared read-only demo learner gets 'demo_account' when uploading. ... ok
+test_tc28_reminder_reaches_customer_only_after_officer_publishes (tests.test_workflow_and_api.ApiTests.test_tc28_reminder_reaches_customer_only_after_officer_publishes)
+TC28 human review: AI reminder → draft (customer sees nothing) → officer publishes → customer message. ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 1.166s
+
+OK
