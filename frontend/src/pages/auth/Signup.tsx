@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { PasswordField, passwordProblems } from "../../components/PasswordField";
 import { Button, Field, Skeleton } from "../../components/ui";
 import { api, ApiError } from "../../lib/api";
 import { useAuth } from "../../lib/auth";
@@ -23,7 +24,10 @@ export default function Signup() {
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, [k]: e.target.value });
 
   const submit = async (e: FormEvent) => {
-    e.preventDefault(); setBusy(true); setErrors({});
+    e.preventDefault(); setErrors({});
+    const missing = passwordProblems(form.password);
+    if (missing.length) { setErrors({ password: `Your password needs ${missing.join(", ")}.` }); return; }
+    setBusy(true);
     try {
       const r = await api.post<{ user: User; enrolment_id: number }>("/api/auth/signup", { ...form, phone: form.phone || null, programme_id: programmeId });
       setUser(r.user);
@@ -59,7 +63,8 @@ export default function Signup() {
             <h2 className="text-2xl font-semibold tracking-tight">Create your account</h2>
             <Field label="Full name" error={errors.full_name}><input className={`input ${errors.full_name ? "input-error" : ""}`} value={form.full_name} onChange={set("full_name")} autoComplete="name" /></Field>
             <Field label="Email" error={errors.email}><input className={`input ${errors.email ? "input-error" : ""}`} type="email" value={form.email} onChange={set("email")} autoComplete="email" /></Field>
-            <Field label="Password" error={errors.password} hint="At least 8 characters with a letter and a number."><input className={`input ${errors.password ? "input-error" : ""}`} type="password" value={form.password} onChange={set("password")} autoComplete="new-password" /></Field>
+            <PasswordField label="Choose a password" value={form.password} error={errors.password}
+              onChange={(v) => { setForm({ ...form, password: v }); if (errors.password) setErrors({ ...errors, password: "" }); }} />
             <div className="grid grid-cols-2 gap-3">
               <Field label="Phone (optional)" error={errors.phone}><input className={`input ${errors.phone ? "input-error" : ""}`} value={form.phone} onChange={set("phone")} autoComplete="tel" /></Field>
               <Field label="Country (optional)" error={errors.country}><input className="input" value={form.country} onChange={set("country")} autoComplete="country-name" /></Field>

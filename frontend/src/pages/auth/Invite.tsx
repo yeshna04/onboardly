@@ -2,7 +2,8 @@ import { MailCheck } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
-import { Button, Field, Skeleton } from "../../components/ui";
+import { PasswordField, passwordProblems } from "../../components/PasswordField";
+import { Button, Skeleton } from "../../components/ui";
 import { api, ApiError } from "../../lib/api";
 import { useAuth } from "../../lib/auth";
 import { fmtDate } from "../../lib/format";
@@ -22,7 +23,10 @@ export default function Invite() {
   const [busy, setBusy] = useState(false);
 
   const submit = async (e: FormEvent) => {
-    e.preventDefault(); setBusy(true); setErr("");
+    e.preventDefault(); setErr("");
+    const missing = passwordProblems(password);
+    if (missing.length) { setErr(`Your password needs ${missing.join(", ")}.`); return; }
+    setBusy(true);
     try {
       const r = await api.post<{ user: User; enrolment_id: number }>(`/api/auth/invite/${encodeURIComponent(code)}/accept`, { password });
       setUser(r.user);
@@ -49,9 +53,8 @@ export default function Invite() {
             <p className="muted mt-1 text-sm">Set a password to open your onboarding checklist for <span className="font-medium text-stone-800 dark:text-stone-200">{data.invite.programme_name}</span>.</p>
           </div>
           <div className="rounded-xl bg-stone-100 px-3 py-2 text-sm dark:bg-white/[0.05]">{data.invite.email}<span className="muted float-right text-xs">expires {fmtDate(data.invite.expires_at)}</span></div>
-          <Field label="Choose a password" error={err} hint="At least 8 characters with a letter and a number.">
-            <input className={`input ${err ? "input-error" : ""}`} type="password" autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)} autoFocus />
-          </Field>
+          <PasswordField label="Choose a password" value={password} error={err} autoFocus
+            onChange={(v) => { setPassword(v); if (err) setErr(""); }} />
           <Button type="submit" size="lg" className="w-full" loading={busy}>Open my checklist</Button>
         </form>
       )}

@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { HighlightedText, NlpInsights } from "../../components/nlp";
+import { PASSWORD_RULES_TEXT } from "../../components/PasswordField";
 import { Avatar, Button, Field, Modal, Segmented, Skeleton } from "../../components/ui";
 import { api, ApiError } from "../../lib/api";
 import { STATUS_LABEL } from "../../lib/format";
@@ -131,7 +132,8 @@ export function NewEnrolmentModal({ open, onClose, onCreated }: { open: boolean;
           {done.invite ? (
             <div className="mx-auto mt-6 max-w-lg rounded-2xl border border-stone-200 p-4 text-left dark:border-white/10">
               <div className="text-sm font-medium">Customer portal invite</div>
-              <p className="muted text-xs">Share this link with the customer (sending email is not connected in this prototype).</p>
+              <p className="muted text-xs">Share this link with the customer (sending email is not connected in this prototype).
+                They choose their own password when they open it: {PASSWORD_RULES_TEXT.charAt(0).toLowerCase() + PASSWORD_RULES_TEXT.slice(1)}</p>
               <div className="mt-3 flex gap-2">
                 <input readOnly value={inviteUrl} className="input font-mono text-xs" onFocus={(e) => e.target.select()} />
                 <Button variant="secondary" icon={<Copy className="h-4 w-4" />} onClick={() => { navigator.clipboard.writeText(inviteUrl); toast.success("Invite link copied"); }}>Copy</Button>
