@@ -205,7 +205,6 @@ def _document_fields(payload: dict, partial: bool = False) -> dict:
         "accepted_formats": (clean_keywords, {}),
         "keywords": (clean_keywords, {}),
         "is_mandatory": (clean_bool, {"default": True}),
-        "validity_days": (clean_int, {"required": False, "min_value": 1, "max_value": 3650}),
     }
     for key, (fn, kwargs) in spec.items():
         if partial and key not in payload:
@@ -530,13 +529,18 @@ def inbound_read(message_id: int):
 
 @bp.post("/enrolments/<int:enrolment_id>/messages")
 def officer_message(enrolment_id: int):
-    """A message the officer writes personally (human-authored, so no approval step needed)."""
+    """A message the officer writes personally (human-authored, so no approval step needed).
+
+    Chat-style: only the text is required. A subject is still stored (used for the customer's
+    notification title); it defaults to a generic one when none is sent.
+    """
     v = Validator(body())
-    subject = v.field("subject", clean_str, min_len=3, max_len=150, label="Subject")
+    subject = v.field("subject", clean_str, required=False, max_len=150, label="Subject")
     text = v.field("body", clean_text_block, min_len=5, max_len=4000, label="Message")
     v.raise_if_errors()
     conn = get_db()
     enrolment = enrol_repo.get(conn, enrolment_id)
+    subject = subject or "Message from your onboarding team"
     with transaction(conn):
         mid = msg_repo.create_message(conn, {"enrolment_id": enrolment_id, "direction": "to_customer",
                                              "subject": subject, "body": text, "author_user_id": g.user["id"]})
@@ -546,21 +550,6 @@ def officer_message(enrolment_id: int):
             msg_repo.notify(conn, [customer_user["id"]], kind="message", title=subject,
                             body="You have a new message from the onboarding team.", link="/portal/messages")
     return jsonify(enrolment_detail_payload(conn, enrolment_id)), 201
-
-
-# ------------------------------------------------------------------ audit
-@bp.get("/audit")
-def audit_list():
-    enrolment_id = request.args.get("enrolment_id")
-    role = request.args.get("actor_role") or None
-    if role and role not in ("admin", "customer", "system"):
-        raise ValidationError("Unknown actor_role filter.", {"actor_role": "Use admin, customer or system."})
-    return jsonify(audit.list_entries(
-        get_db(),
-        enrolment_id=clean_id(enrolment_id, "enrolment_id") if enrolment_id else None,
-        action=request.args.get("action") or None, actor_role=role,
-        search=(request.args.get("q") or "").strip() or None,
-        limit=int_arg("limit", 50, hi=200), offset=int_arg("offset", 0, lo=0, hi=100000)))
 
 
 # ------------------------------------------------------------------ NLP + documents

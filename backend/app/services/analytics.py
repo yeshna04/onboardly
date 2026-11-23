@@ -106,6 +106,11 @@ def document_bottlenecks(conn: sqlite3.Connection, top: int = 6) -> list[dict]:
     return counts.to_dict(orient="records")
 
 
+# Display names for enrolment statuses (the stored value 'new' means "enrolled, nothing received yet").
+STATUS_LABELS = {"new": "Enrolled", "awaiting_docs": "Awaiting docs", "ready_for_review": "Ready for review",
+                 "completed": "Completed", "cancelled": "Cancelled"}
+
+
 def onboarding_report(conn: sqlite3.Connection) -> pd.DataFrame:
     """Flat per-enrolment report (exported as CSV from the admin portal)."""
     df = pd.read_sql_query("""
@@ -124,4 +129,5 @@ def onboarding_report(conn: sqlite3.Connection) -> pd.DataFrame:
     today = pd.Timestamp.now(tz="UTC").normalize()
     due = pd.to_datetime(df["due_date"], utc=True, errors="coerce")
     df["overdue"] = (due < today) & ~df["status"].isin(["completed", "cancelled"])
+    df["status"] = df["status"].map(STATUS_LABELS).fillna(df["status"])   # same wording as the UI
     return df

@@ -15,7 +15,7 @@ def build_context(conn: sqlite3.Connection, enrolment: dict, checklist: dict) ->
         items.append({
             "doc_code": i["doc_code"], "name": i["name"], "mandatory": i["is_mandatory"], "state": i["state"],
             "description": i["description"], "accepted_formats": i["accepted_formats"],
-            "rejection_reason": i["rejection_reason"], "expires_on": i["expires_on"],
+            "rejection_reason": i["rejection_reason"],
         })
     actionable = [i["doc_code"] for i in checklist["items"] if i["state"] in OUTSTANDING_STATES]
     with_staff = [i["doc_code"] for i in checklist["items"] if i["state"] in COLLECTED_STATES - {"verified"}]

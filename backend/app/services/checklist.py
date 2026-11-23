@@ -51,14 +51,6 @@ def build_checklist(required_docs: list[dict], submissions: list[dict], today: d
                         reverse=True)
         best = candidates[0] if candidates else None
         state = best["status"] if best else "missing"
-        expires_on = None
-        if best and doc.get("validity_days"):
-            base = _as_date(best.get("document_date")) or _as_date(best.get("created_at"))
-            if base:
-                expiry = base + timedelta(days=int(doc["validity_days"]))
-                expires_on = expiry.isoformat()
-                if expiry < today and state in COLLECTED_STATES:
-                    state = "expired"
         items.append({
             "required_document_id": doc["id"],
             "doc_code": doc["doc_code"],
@@ -75,7 +67,6 @@ def build_checklist(required_docs: list[dict], submissions: list[dict], today: d
             "rejection_reason": best.get("rejection_reason") if best else None,
             "submitted_at": best.get("created_at") if best else None,
             "verified_at": best.get("verified_at") if best else None,
-            "expires_on": expires_on,
             "attempts": len(candidates),
         })
 

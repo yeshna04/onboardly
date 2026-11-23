@@ -42,7 +42,7 @@ reminders. A human officer approves every message before the learner sees it."
    - the exact prompt version, request and response;
    - provider, model, tokens, latency and request id;
    - the validation result and the saved draft and audit rows.
-8. Open **Audit** to show the append-only log, including `draft.published` with the human edit diff.
+8. On the same Trace page, scroll to the audit entries, including `draft.published` with the human edit diff.
 
 ## 3. Failure and recovery scenario (2 min)
 
@@ -54,11 +54,11 @@ Pick one:
   with the error stored. Nothing reaches the learner until it is published.
 - **Bad input:**
   - Upload an unsupported file type (e.g. `.exe`) or a file over 5 MB, and show the clear error.
-  - Or paste a refund request into the intake text. The NLP flags it as **unsupported** and asks
-    for a human; the assistant does not act on it.
+  - Or, in the **New enrolment** wizard, paste a refund request into the customer-email box. The NLP
+    flags it as **unsupported** and asks for a human; the assistant does not act on it.
 
 ## 4. Wrap-up (30 s)
 
-- **Tests:** 28 automated tests (`python -m unittest -v`), with mocked LLMs and edge cases.
+- **Tests:** 29 automated tests (`python -m unittest -v`), with mocked LLMs and edge cases.
 - **Data:** synthetic only; API keys are in environment variables; nothing is sent without approval.
 - **Links:** the GitHub repository and the deployed link.

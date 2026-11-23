@@ -14,7 +14,19 @@ import { ProgrammeCard } from "../auth/ProgrammePicker";
 
 interface CustomerRow { id: number; full_name: string; email: string; customer_ref: string; country: string | null; enrolment_count: number }
 
-export const SAMPLE_EMAIL = "Hi team, I'd like to join the Study-Abroad Pathway for the spring intake. I've attached my passport scan and my school transcript. My IELTS test is booked so I will send the score next week. Paid the deposit by bank transfer yesterday. Thanks!";
+/** Example intake email for the chosen programme, built from its own required documents. */
+export function sampleIntake(programme: Programme | undefined): string {
+  if (!programme) return "";
+  const docs = [...programme.documents].sort((a, b) => b.is_mandatory - a.is_mandatory || a.sort_order - b.sort_order);
+  const lower = (name: string) => (/^[A-Z]{2,}/.test(name) || /^English/.test(name) ? name : name[0].toLowerCase() + name.slice(1));
+  const [first, second, later] = docs.map((d) => lower(d.name));
+  const parts = [`Hi team, I'd like to join the ${programme.name}.`];
+  if (first && second) parts.push(`I've attached my ${first} and my ${second}.`);
+  else if (first) parts.push(`I've attached my ${first}.`);
+  if (later) parts.push(`I will send my ${later} next week.`);
+  parts.push("Thanks!");
+  return parts.join(" ");
+}
 
 export function useNlpPreview(text: string, programmeId: number | null) {
   const debounced = useDebounced(text, 400);
@@ -166,8 +178,8 @@ export function NewEnrolmentModal({ open, onClose, onCreated }: { open: boolean;
                     <div className="grid gap-4 sm:grid-cols-2">
                       <Field label="Full name" error={errors.full_name}><input className={clsx("input", errors.full_name && "input-error")} value={newCustomer.full_name} onChange={(e) => setNewCustomer({ ...newCustomer, full_name: e.target.value })} /></Field>
                       <Field label="Email" error={errors.email}><input className={clsx("input", errors.email && "input-error")} type="email" value={newCustomer.email} onChange={(e) => setNewCustomer({ ...newCustomer, email: e.target.value })} /></Field>
-                      <Field label="Phone" error={errors.phone}><input className={clsx("input", errors.phone && "input-error")} value={newCustomer.phone} onChange={(e) => setNewCustomer({ ...newCustomer, phone: e.target.value })} /></Field>
-                      <Field label="Country"><input className="input" value={newCustomer.country} onChange={(e) => setNewCustomer({ ...newCustomer, country: e.target.value })} /></Field>
+                      <Field label="Phone (optional)" error={errors.phone}><input className={clsx("input", errors.phone && "input-error")} value={newCustomer.phone} onChange={(e) => setNewCustomer({ ...newCustomer, phone: e.target.value })} /></Field>
+                      <Field label="Country (optional)" error={errors.country}><input className="input" value={newCustomer.country} onChange={(e) => setNewCustomer({ ...newCustomer, country: e.target.value })} /></Field>
                     </div>
                   )}
                 </div>
@@ -202,10 +214,11 @@ export function NewEnrolmentModal({ open, onClose, onCreated }: { open: boolean;
                   <div>
                     <div className="flex items-center justify-between">
                       <label className="label">Paste the customer's email or notes <span className="muted font-normal">(optional)</span></label>
-                      <button className="mb-1.5 text-xs font-medium text-brand-600 hover:underline dark:text-brand-300" onClick={() => setIntake(SAMPLE_EMAIL)}>Use sample</button>
+                      <button className="mb-1.5 text-xs font-medium text-brand-600 hover:underline dark:text-brand-300" onClick={() => setIntake(sampleIntake(programme))} disabled={!programme}
+                        title={programme ? `Example email for ${programme.name}` : "Choose a programme first"}>Use sample</button>
                     </div>
                     <textarea className="input min-h-[150px] resize-y leading-6" value={intake} onChange={(e) => setIntake(e.target.value)}
-                      placeholder="e.g. “Attached my passport and transcript, will send the IELTS score next week…”" />
+                      placeholder={programme ? `e.g. “${sampleIntake(programme)}”` : "Paste what the customer wrote…"} />
                     {analysis && intake.trim() && (
                       <div className="mt-3 rounded-xl bg-stone-50 p-3 dark:bg-white/[0.03]">
                         <div className="muted mb-1 text-[11px] font-semibold uppercase tracking-wide">What the NLP sees</div>

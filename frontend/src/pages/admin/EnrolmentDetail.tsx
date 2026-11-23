@@ -1,23 +1,21 @@
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  ArrowLeft, Ban, CalendarDays, CheckCircle2, ChevronDown, Copy, ExternalLink, FileText, GitBranch, Link2, Mail, MessageSquarePlus,
-  Pencil, RefreshCw, Send, ShieldCheck, Upload, Wand2,
+  ArrowLeft, Ban, CalendarDays, CheckCircle2, ChevronDown, Copy, ExternalLink, FileText, GitBranch, Link2, Mail,
+  Pencil, Send, ShieldCheck, Upload, Wand2,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { AiAssistPanel } from "../../components/AiAssist";
 import { Dropzone } from "../../components/chrome";
 import { ModelBadge } from "../../components/DraftEditor";
-import { HighlightedText, NlpInsights } from "../../components/nlp";
 import { DocStateIcon, DocStatePill, IntentPill, StatusPill, UploaderBadge } from "../../components/status";
 import { Avatar, Badge, Button, ErrorState, Field, Modal, PageSkeleton, ProgressRing, Tabs, stagger } from "../../components/ui";
 import { api, ApiError } from "../../lib/api";
 import { dueLabel, fileSize, fmtDate, fmtDateTime, timeAgo } from "../../lib/format";
 import { useApi } from "../../lib/hooks";
-import type { ChecklistItem, EnrolmentDetail as Detail, NlpMatch } from "../../lib/types";
-import { SAMPLE_EMAIL, useNlpPreview } from "./NewEnrolment";
+import type { ChecklistItem, EnrolmentDetail as Detail } from "../../lib/types";
 
 type Tab = "checklist" | "messages" | "history";
 
@@ -25,7 +23,6 @@ export default function EnrolmentDetail() {
   const { id = "" } = useParams();
   const { data, setData, error, loading, reload } = useApi<Detail>(`/api/admin/enrolments/${id}`, [id]);
   const [tab, setTab] = useState<Tab>("checklist");
-  const [intakeOpen, setIntakeOpen] = useState(false);
   const [confirmComplete, setConfirmComplete] = useState(false);
   const [cancelOpen, setCancelOpen] = useState(false);
   const [datesOpen, setDatesOpen] = useState(false);
@@ -85,9 +82,6 @@ export default function EnrolmentDetail() {
           </div>
         )}
         <div className="mt-5 flex flex-wrap gap-2 border-t border-stone-100 pt-4 dark:border-white/[0.06]">
-          <Button size="sm" variant="secondary" icon={<MessageSquarePlus className="h-4 w-4" />} onClick={() => setIntakeOpen(true)} disabled={closed}>Paste customer message</Button>
-          <Button size="sm" variant="secondary" icon={<RefreshCw className="h-4 w-4" />} loading={busy === "check"} disabled={closed}
-            onClick={() => act("check", () => api.post(`/api/admin/enrolments/${e.id}/check`), "Checklist compared and saved")}>Re-check</Button>
           <Link to={`/admin/enrolments/${e.id}/trace`}><Button size="sm" variant="secondary" icon={<GitBranch className="h-4 w-4" />}>Pipeline trace</Button></Link>
           {inviteUrl && <Button size="sm" variant="ghost" icon={<Link2 className="h-4 w-4" />} onClick={() => { navigator.clipboard.writeText(inviteUrl); toast.success("Invite link copied"); }}>Copy invite link</Button>}
           {!data.customer_has_login && !data.invite && !closed && <Button size="sm" variant="ghost" icon={<Link2 className="h-4 w-4" />} loading={busy === "invite"}
@@ -120,7 +114,6 @@ export default function EnrolmentDetail() {
         </div>
       </div>
 
-      <IntakeModal open={intakeOpen} onClose={() => setIntakeOpen(false)} detail={data} onApplied={(d) => { setData(d); setIntakeOpen(false); }} />
       <Modal open={confirmComplete} onClose={() => setConfirmComplete(false)} size="sm" title="Complete onboarding?"
         description="This marks the enrolment complete and notifies the customer. It can't be undone in the prototype."
         footer={<><Button variant="ghost" onClick={() => setConfirmComplete(false)}>Not yet</Button>
@@ -191,7 +184,6 @@ function ChecklistRow({ item, index, detail, open, onToggle, onChange, closed, o
             {sub && item.state !== "missing" && <UploaderBadge role={sub.uploaded_by_role} name={sub.uploaded_by_name} channel={sub.channel} />}</div>
           <div className="muted truncate text-xs">
             {item.filename ? <><FileText className="mr-1 inline h-3 w-3" />{item.filename} · {timeAgo(item.submitted_at)}</> : item.state === "missing" ? item.description : item.state_label}
-            {item.expires_on && ` · valid until ${fmtDate(item.expires_on)}`}
           </div>
         </div>
         {typeof item.match_confidence === "number" && item.match_confidence > 0 && item.state !== "verified" && (
@@ -279,13 +271,12 @@ function UnassignedUploads({ detail, onChange }: { detail: Detail; onChange: (d:
 
 /* ---------------------------------------------------------------- messages */
 function MessagesPanel({ detail, onChange }: { detail: Detail; onChange: (d: Detail) => void }) {
-  const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
   const [busy, setBusy] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const send = async () => {
     setBusy(true); setErrors({});
-    try { onChange(await api.post<Detail>(`/api/admin/enrolments/${detail.enrolment.id}/messages`, { subject, body })); setSubject(""); setBody(""); toast.success("Message posted to the customer's portal"); }
+    try { onChange(await api.post<Detail>(`/api/admin/enrolments/${detail.enrolment.id}/messages`, { body })); setBody(""); toast.success("Message posted to the customer's portal"); }
     catch (e) { setErrors((e as ApiError).fields); } finally { setBusy(false); }
   };
   return (
@@ -301,17 +292,16 @@ function MessagesPanel({ detail, onChange }: { detail: Detail; onChange: (d: Det
                   <span className="font-medium">{mine ? (m.reminder_draft_id ? "Reminder (approved)" : m.author_name?.replace(/\s*\(.*\)/, "")) : m.author_name}</span>
                   <span>{fmtDateTime(m.created_at)}</span>{!mine && <IntentPill intent={m.nlp_intent} />}
                 </div>
-                <div className="text-sm font-semibold">{m.subject}</div>
-                <div className="mt-1 whitespace-pre-wrap text-sm leading-6">{m.body}</div>
+                {m.reminder_draft_id && <div className="text-sm font-semibold">{m.subject}</div>}
+                <div className={clsx("whitespace-pre-wrap text-sm leading-6", m.reminder_draft_id && "mt-1")}>{m.body}</div>
               </div>
             </motion.div>
           );
         })}
       </div>
       <div className="space-y-2 border-t border-stone-100 p-4 dark:border-white/[0.06]">
-        <input className={clsx("input", errors.subject && "input-error")} placeholder="Subject" value={subject} onChange={(e) => setSubject(e.target.value)} />
         <textarea className={clsx("input min-h-[90px]", errors.body && "input-error")} placeholder="Write to the customer yourself (posts to their portal inbox)…" value={body} onChange={(e) => setBody(e.target.value)} />
-        <div className="flex items-center justify-between"><span className="text-xs text-rose-600">{errors.subject || errors.body}</span>
+        <div className="flex items-center justify-between"><span className="text-xs text-rose-600">{errors.body}</span>
           <Button size="sm" icon={<Send className="h-4 w-4" />} loading={busy} onClick={send} disabled={!body.trim()}>Send</Button></div>
       </div>
     </div>
@@ -352,39 +342,7 @@ function HistoryPanel({ detail }: { detail: Detail }) {
   );
 }
 
-/* ---------------------------------------------------------------- intake + cancel */
-function IntakeModal({ open, onClose, detail, onApplied }: { open: boolean; onClose: () => void; detail: Detail; onApplied: (d: Detail) => void }) {
-  const [text, setText] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [err, setErr] = useState("");
-  const { analysis, loading } = useNlpPreview(open ? text : "", detail.enrolment.programme_id);
-  const names = useMemo(() => Object.fromEntries(detail.checklist.items.map((i) => [i.doc_code, i.name])), [detail]);
-  const apply = async () => {
-    setBusy(true); setErr("");
-    try {
-      const r = await api.post<{ detail: Detail; created: NlpMatch[]; skipped: (NlpMatch & { reason: string })[]; unsupported: boolean }>(`/api/admin/enrolments/${detail.enrolment.id}/intake`, { text });
-      onApplied(r.detail); setText("");
-      toast.success(r.created.length ? `${r.created.length} checklist item(s) updated from the message` : "Message analysed – nothing new to record",
-        { description: r.unsupported ? "It also contains an out-of-scope request – handle it personally." : r.skipped.length ? `${r.skipped.length} already on file` : undefined });
-    } catch (e) { setErr((e as ApiError).fields.text ?? (e as ApiError).message); } finally { setBusy(false); }
-  };
-  return (
-    <Modal open={open} onClose={onClose} size="xl" title="Paste a customer message" description="The NLP pipeline extracts the service, documents sent and documents promised – then updates the checklist."
-      footer={<><Button variant="ghost" onClick={onClose}>Cancel</Button><Button loading={busy} onClick={apply} icon={<Wand2 className="h-4 w-4" />}>Apply to checklist</Button></>}>
-      <div className="grid gap-5 lg:grid-cols-2">
-        <div>
-          <div className="flex items-center justify-between"><label className="label">Customer email / note</label>
-            <button className="mb-1.5 text-xs font-medium text-brand-600 hover:underline dark:text-brand-300" onClick={() => setText(SAMPLE_EMAIL)}>Use sample</button></div>
-          <textarea autoFocus className={clsx("input min-h-[180px] leading-6", err && "input-error")} value={text} onChange={(e) => setText(e.target.value)} placeholder="Paste the email here…" />
-          {err && <p className="mt-1.5 text-sm text-rose-600">{err}</p>}
-          {analysis && text.trim() && <div className="mt-3 rounded-xl bg-stone-50 p-3 dark:bg-white/[0.03]"><HighlightedText text={text} highlights={analysis.highlights} names={names} /></div>}
-        </div>
-        <div><label className="label">Live extraction</label><NlpInsights analysis={analysis} loading={loading} programmeCode={detail.enrolment.programme_code} /></div>
-      </div>
-    </Modal>
-  );
-}
-
+/* ---------------------------------------------------------------- cancel */
 function CancelModal({ open, onClose, enrolmentId, onDone }: { open: boolean; onClose: () => void; enrolmentId: number; onDone: (d: Detail) => void }) {
   const [reason, setReason] = useState("");
   const [err, setErr] = useState("");
@@ -397,7 +355,7 @@ function CancelModal({ open, onClose, enrolmentId, onDone }: { open: boolean; on
         catch (e) { setErr((e as ApiError).fields.reason ?? (e as ApiError).message); } finally { setBusy(false); }
       }}>Cancel enrolment</Button></>}>
       <Field label="Reason" error={err}><input className="input" value={reason} onChange={(e) => setReason(e.target.value)} autoFocus /></Field>
-      <div className="mt-2 flex items-center gap-1 text-xs text-stone-400"><Copy className="h-3 w-3" />The customer sees this reason in their portal. It is also recorded in the audit log.</div>
+      <div className="mt-2 flex items-center gap-1 text-xs text-stone-400"><Copy className="h-3 w-3" />The customer sees this reason in their portal.</div>
     </Modal>
   );
 }
@@ -431,7 +389,7 @@ function DatesModal({ open, onClose, enrolment, onDone }: { open: boolean; onClo
         <Field label="Programme start date (optional)" error={errors.target_start_date}>
           <input type="date" className="input" value={start} onChange={(e) => setStart(e.target.value)} />
         </Field>
-        <p className="muted flex items-center gap-1 text-xs"><Copy className="h-3 w-3" />Changes are recorded in the audit log.</p>
+        <p className="muted flex items-center gap-1 text-xs"><Copy className="h-3 w-3" />The customer is notified of a new deadline.</p>
       </div>
     </Modal>
   );

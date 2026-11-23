@@ -1,6 +1,6 @@
 # Test evidence
 
-**28 automated tests, all passing.** They use Python `unittest` only, with no extra packages. The LLM
+**29 automated tests, all passing.** They use Python `unittest` only, with no extra packages. The LLM
 providers are mocked, so the tests need no API key, no network and no credits. Each test runs on
 its own throw-away copy of a freshly seeded synthetic database. Your real `db/onboarding.db` and
 `.env` are never touched.
@@ -25,7 +25,7 @@ Raw output of the latest run: [`test-run.txt`](test-run.txt). The test code is i
 | TC06 | NLP | normal | Upload named `passport_scan.pdf` | Suggested item `PASSPORT` | ✅ |
 | TC07 | NLP | normal | "Due 2026-12-13, exam on 5 January 2027, I'll send it next week." | `2026-12-13`, `2027-01-05` + one relative date | ✅ |
 | TC08 | Checklist | normal | 3 mandatory docs: 1 verified, 1 rejected ("Blurry scan"), 1 missing | 1/3 verified; outstanding = TRANSCRIPT rejected, ENGLISH_TEST missing; next step "Re-upload your transcript – Blurry scan" | ✅ |
-| TC09 | Checklist | edge: expiry and status | English test dated 2023-01-01 (valid 730 days); then all mandatory items submitted | `expired`; status `ready_for_review`; a cancelled enrolment stays `cancelled` | ✅ |
+| TC09 | Checklist | edge: old document and status | Verified English test dated 2019-01-01; then all mandatory items submitted | Still `verified` (no expiry rule); `new` stays `new` (shown as "Enrolled"); `ready_for_review`; a cancelled enrolment stays `cancelled` | ✅ |
 | TC10 | Validation | edge: bad input | `not-an-email`, `password`, `abc1`, `2026-02-30` | `ValidationError` with field messages; email is normalised to lower case | ✅ |
 | TC11 | CRM connector (pandas) | edge: malformed file | `crm_export_with_errors.csv` (missing name, bad email, bad phone, duplicates) | Valid rows imported; bad rows reported with row and field; counts add up; one `crm.import` audit row | ✅ |
 | TC12 | LLM validator | normal | Reminder naming only ENGLISH_TEST and the real due date | No errors | ✅ |
@@ -45,13 +45,14 @@ Raw output of the latest run: [`test-run.txt`](test-run.txt). The test code is i
 | TC26 | API | security: CSRF | POST without the `X-Requested-With` header | 403 | ✅ |
 | TC27 | API | edge: demo account | Read-only demo learner uploads a file | 403 `demo_account` | ✅ |
 | TC28 | API | **human review** | Officer drafts a reminder, then publishes it | Draft created (201) and the customer has no new message; after **Publish**, one message, draft `published`, audit `draft.published` | ✅ |
+| TC29 | API | normal | Officer sends a chat message with text only; CSV report exported | Message stored with the default subject "Message from your onboarding team" (201); the CSV shows `Enrolled`, not `new` | ✅ |
 
 ## What the brief asked for
 
 | Requirement | Covered by |
 |---|---|
-| At least 10 test cases | 28 |
-| Normal cases | TC01, 06–08, 12, 15–16, 19, 21 |
+| At least 10 test cases | 29 |
+| Normal cases | TC01, 06–08, 12, 15–16, 19, 21, 29 |
 | Empty or missing input | TC02, TC18 |
 | Malformed text | TC04, TC10, TC11, TC17 (non-JSON reply) |
 | No matching record | TC24 |

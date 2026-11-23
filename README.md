@@ -30,8 +30,8 @@ Read enrolment → compare checklist → NLP document metadata extraction → LL
   - programme and required-document editor;
   - **AI assist** ("Explain outstanding", "Draft reminder");
   - **Reviews**: edit, publish or reject AI drafts;
-  - per-enrolment **Trace**: NLP → prompt → API → validation → DB rows;
-  - append-only **Audit** log.
+  - per-enrolment **Trace**: NLP → prompt → API → validation → DB rows, plus that enrolment's audit entries.
+  - Every consequential action is also written to an append-only `audit_log` table.
 - **Human in the loop:** the assistant only creates *drafts*. Nothing reaches a learner until an officer
   publishes it. It never issues certificates, approves refunds, grades learners or sends messages on
   its own.
@@ -48,7 +48,7 @@ Read enrolment → compare checklist → NLP document metadata extraction → LL
 | LLM output validated and grounded | `app/llm/validator.py`: unknown documents, invented dates, links, promises and placeholders are rejected → one repair attempt → deterministic template fallback, labelled "not AI" |
 | SQLite with sqlite3 | [`backend/db/schema.sql`](backend/db/schema.sql): 14 tables with PK/FK, CHECK constraints, timestamps, status fields and an append-only `audit_log` (triggers) |
 | LMS/CRM workflow, synthetic data | `backend/data/sample/` (all fictional, `.test` emails); the connector boundary is documented in [ARCHITECTURE](docs/ARCHITECTURE.md) |
-| At least 10 tests including edge cases | **28 tests**, see [docs/TEST_EVIDENCE.md](docs/TEST_EVIDENCE.md) |
+| At least 10 tests including edge cases | **29 tests**, see [docs/TEST_EVIDENCE.md](docs/TEST_EVIDENCE.md) |
 
 ## Documentation
 
@@ -57,7 +57,7 @@ Read enrolment → compare checklist → NLP document metadata extraction → LL
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Component diagram, AI workflow sequence diagram, ER diagram, module map |
 | [backend/prompts/README.md](backend/prompts/README.md) | Prompt pack: prompts, context boundaries, output JSON, validation rules, v1 → v2 notes |
 | [docs/SAMPLE_RUN.md](docs/SAMPLE_RUN.md) | One complete real scenario: intake email → NLP → checklist → Gemini request and response → validation → DB rows |
-| [docs/TEST_EVIDENCE.md](docs/TEST_EVIDENCE.md) | 28 test cases with inputs, expected and actual results, plus the raw run log |
+| [docs/TEST_EVIDENCE.md](docs/TEST_EVIDENCE.md) | 29 test cases with inputs, expected and actual results, plus the raw run log |
 | [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md) | Walkthrough script: a normal scenario and a failure/recovery scenario |
 | [docs/DEPLOY.md](docs/DEPLOY.md) | Deploying to Render (free tier) |
 
@@ -165,7 +165,7 @@ backend/
   db/sample_onboarding.db     sample database (synthetic, seeded)
   data/sample/                synthetic programmes, enrolments, CRM exports
   prompts/v1, v2              prompt pack (+ README)
-  tests/                      28 unittest cases
+  tests/                      29 unittest cases
   seed.py  create_admin.py  run.py  requirements.txt
 frontend/src/
   pages/portal · pages/admin · pages/auth · components · layouts · lib

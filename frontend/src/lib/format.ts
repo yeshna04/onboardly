@@ -58,7 +58,7 @@ export function plural(n: number, word: string, pluralWord = `${word}s`) {
 }
 
 export const STATUS_LABEL: Record<string, string> = {
-  new: "New", awaiting_docs: "Awaiting docs", ready_for_review: "Ready for review", completed: "Completed", cancelled: "Cancelled",
+  new: "Enrolled", awaiting_docs: "Awaiting docs", ready_for_review: "Ready for review", completed: "Completed", cancelled: "Cancelled",
 };
 
 export const INTENT_LABEL: Record<string, string> = {

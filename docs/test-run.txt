@@ -1,8 +1,8 @@
-# python -m unittest -v   (run 2026-11-23 01:52 IST, Python 3.11.6)
+# python -m unittest -v   (run 2026-11-23 20:08 IST, Python 3.11.6)
 test_tc08_checklist_compares_required_vs_submitted (tests.test_checklist_and_validation.ChecklistTests.test_tc08_checklist_compares_required_vs_submitted)
 TC08 normal: verified + rejected + missing items give the right counts, outstanding list and next step. ... ok
-test_tc09_old_document_expires_and_status_follows_checklist (tests.test_checklist_and_validation.ChecklistTests.test_tc09_old_document_expires_and_status_follows_checklist)
-TC09 edge: an English test older than its 730-day validity becomes 'expired'; full set → ready_for_review. ... ok
+test_tc09_status_follows_checklist_and_old_documents_stay_valid (tests.test_checklist_and_validation.ChecklistTests.test_tc09_status_follows_checklist_and_old_documents_stay_valid)
+TC09 edge: an old document date never expires an item; full set → ready_for_review; terminal states stay. ... ok
 test_tc11_crm_export_with_bad_rows_is_partially_imported (tests.test_checklist_and_validation.CrmImportTests.test_tc11_crm_export_with_bad_rows_is_partially_imported)
 TC11 edge: CSV with a missing name, bad email, bad phone and duplicates → valid rows imported, bad rows reported. ... ok
 test_tc10_invalid_inputs_raise_validation_errors (tests.test_checklist_and_validation.ValidationTests.test_tc10_invalid_inputs_raise_validation_errors)
@@ -58,8 +58,10 @@ test_tc27_demo_learner_cannot_upload (tests.test_workflow_and_api.ApiTests.test_
 TC27 edge: the shared read-only demo learner gets 'demo_account' when uploading. ... ok
 test_tc28_reminder_reaches_customer_only_after_officer_publishes (tests.test_workflow_and_api.ApiTests.test_tc28_reminder_reaches_customer_only_after_officer_publishes)
 TC28 human review: AI reminder → draft (customer sees nothing) → officer publishes → customer message. ... ok
+test_tc29_officer_message_needs_no_subject_and_report_uses_step_names (tests.test_workflow_and_api.ApiTests.test_tc29_officer_message_needs_no_subject_and_report_uses_step_names)
+TC29: officer sends a chat message with only text → stored with a default subject, customer notified; ... ok
 
 ----------------------------------------------------------------------
-Ran 28 tests in 1.166s
+Ran 29 tests in 1.140s
 
 OK

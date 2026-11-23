@@ -16,7 +16,7 @@ from .support import make_config, _TMP_ROOT
 DOCS = [
     {"id": 1, "doc_code": "PASSPORT", "name": "Passport", "is_mandatory": 1},
     {"id": 2, "doc_code": "TRANSCRIPT", "name": "Transcript", "is_mandatory": 1},
-    {"id": 3, "doc_code": "ENGLISH_TEST", "name": "English test result", "is_mandatory": 1, "validity_days": 730},
+    {"id": 3, "doc_code": "ENGLISH_TEST", "name": "English test result", "is_mandatory": 1},
     {"id": 4, "doc_code": "PHOTO", "name": "Photo", "is_mandatory": 0},
 ]
 
@@ -40,13 +40,15 @@ class ChecklistTests(unittest.TestCase):
         self.assertEqual(step["title"], "Re-upload your transcript")   # rejected items come first
         self.assertEqual(step["detail"], "Blurry scan")
 
-    def test_tc09_old_document_expires_and_status_follows_checklist(self):
-        """TC09 edge: an English test older than its 730-day validity becomes 'expired'; full set → ready_for_review."""
-        subs = [{"id": 20, "required_document_id": 3, "status": "verified", "document_date": "2023-01-01",
+    def test_tc09_status_follows_checklist_and_old_documents_stay_valid(self):
+        """TC09 edge: an old document date never expires an item; full set → ready_for_review; terminal states stay."""
+        subs = [{"id": 20, "required_document_id": 3, "status": "verified", "document_date": "2019-01-01",
                  "created_at": "2026-11-01T10:00:00Z"}]
         cl = build_checklist(DOCS, subs, today=date(2026, 11, 23))
         english = next(i for i in cl["items"] if i["doc_code"] == "ENGLISH_TEST")
-        self.assertEqual(english["state"], "expired")
+        self.assertEqual(english["state"], "verified")                       # no validity / expiry rule
+        self.assertNotIn("expires_on", english)
+        self.assertEqual(derive_status("new", cl, False), "new")              # shown as "Enrolled" in the UI
 
         all_in = [{"id": 30 + d["id"], "required_document_id": d["id"], "status": "submitted",
                    "created_at": "2026-11-20T10:00:00Z"} for d in DOCS if d["is_mandatory"]]

@@ -32,7 +32,7 @@ The model only sees what is inside these tags. Customer text is marked as data, 
 
 The context contains only what is needed: the customer's first name, programme, enrolment reference,
 today, due date, target start date, and per item: `doc_code`, name, mandatory flag, state,
-description, accepted formats, rejection reason and expiry. It never contains email addresses,
+description, accepted formats and rejection reason. It never contains email addresses,
 phone numbers or IDs.
 
 ## Expected output (structured JSON)

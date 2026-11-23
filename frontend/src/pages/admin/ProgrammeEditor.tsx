@@ -10,7 +10,7 @@ import { PROGRAMME_GRADIENT, PROGRAMME_ICON } from "../auth/ProgrammePicker";
 
 export type DocDraft = {
   key: string; doc_code: string; name: string; description: string; why_needed: string; keywords: string;
-  accepted_formats: string; is_mandatory: boolean; validity_days: string; codeTouched: boolean; open: boolean;
+  accepted_formats: string; is_mandatory: boolean; codeTouched: boolean; open: boolean;
 };
 
 const FORMATS = ["pdf", "jpg", "png", "txt", "csv", "json"];
@@ -28,7 +28,7 @@ let seq = 0;
 export const blankDoc = (from?: Partial<RequiredDocument>): DocDraft => ({
   key: `d${++seq}`, doc_code: from?.doc_code ?? "", name: from?.name ?? "", description: from?.description ?? "",
   why_needed: from?.why_needed ?? "", keywords: from?.keywords ?? "", accepted_formats: from?.accepted_formats ?? "pdf,jpg,png",
-  is_mandatory: from ? !!from.is_mandatory : true, validity_days: from?.validity_days ? String(from.validity_days) : "",
+  is_mandatory: from ? !!from.is_mandatory : true,
   codeTouched: !!from, open: !from,
 });
 
@@ -109,7 +109,7 @@ export function ProgrammeEditor({ open, onClose, onSaved, programme, library }: 
       } else {
         const documents = docs.map((d) => ({
           doc_code: d.doc_code, name: d.name, description: d.description, why_needed: d.why_needed, keywords: d.keywords,
-          accepted_formats: d.accepted_formats, is_mandatory: d.is_mandatory, validity_days: d.validity_days ? Number(d.validity_days) : null,
+          accepted_formats: d.accepted_formats, is_mandatory: d.is_mandatory,
         }));
         await api.post("/api/admin/programmes", { ...payload(), documents });
         toast.success(`${form.name} created`, { description: `${documents.length} checklist document(s). It's now open for enrolment.` });
@@ -286,7 +286,7 @@ export function ProgrammeEditor({ open, onClose, onSaved, programme, library }: 
                             <Field label="NLP keywords" error={docError(i, "keywords")} className="sm:col-span-2" hint="Phrases customers use for this document, comma-separated.">
                               <input className="input" value={d.keywords} placeholder="portfolio, case study, behance" onChange={(e) => updateDoc(d.key, { keywords: e.target.value })} />
                             </Field>
-                            <Field label="Accepted formats" error={docError(i, "accepted_formats")}>
+                            <Field label="Accepted formats" error={docError(i, "accepted_formats")} className="sm:col-span-2">
                               <div className="flex flex-wrap gap-1.5">
                                 {FORMATS.map((f) => {
                                   const on = d.accepted_formats.split(",").map((x) => x.trim()).includes(f);
@@ -299,9 +299,6 @@ export function ProgrammeEditor({ open, onClose, onSaved, programme, library }: 
                                   );
                                 })}
                               </div>
-                            </Field>
-                            <Field label="Valid for (days, optional)" error={docError(i, "validity_days")} hint="Older copies count as expired.">
-                              <input className="input" type="number" min={1} value={d.validity_days} onChange={(e) => updateDoc(d.key, { validity_days: e.target.value })} />
                             </Field>
                           </div>
                         </motion.div>

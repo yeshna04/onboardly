@@ -18,7 +18,6 @@ const Reviews = lazy(() => import("./pages/admin/Reviews"));
 const Inbox = lazy(() => import("./pages/admin/Inbox"));
 const Customers = lazy(() => import("./pages/admin/Customers"));
 const Programmes = lazy(() => import("./pages/admin/Programmes"));
-const Audit = lazy(() => import("./pages/admin/Audit"));
 const Trace = lazy(() => import("./pages/admin/Trace"));
 const PortalHome = lazy(() => import("./pages/portal/Home"));
 const PortalEnrolment = lazy(() => import("./pages/portal/EnrolmentChecklist"));
@@ -66,7 +65,6 @@ export default function App() {
               <Route path="inbox" element={<Inbox />} />
               <Route path="customers" element={<Customers />} />
               <Route path="programmes" element={<Programmes />} />
-              <Route path="audit" element={<Audit />} />
             </Route>
             <Route path="/portal" element={<RequireRole role="customer"><PortalLayout /></RequireRole>}>
               <Route index element={<PortalHome />} />

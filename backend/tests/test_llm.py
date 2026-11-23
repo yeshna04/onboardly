@@ -26,10 +26,9 @@ CONTEXT = {
     "completion_pct": 50.0, "mandatory_total": 2, "mandatory_verified": 1,
     "items": [
         {"doc_code": "PASSPORT", "name": "Passport", "mandatory": True, "state": "verified", "description": "",
-         "accepted_formats": "pdf", "rejection_reason": None, "expires_on": None},
+         "accepted_formats": "pdf", "rejection_reason": None},
         {"doc_code": "ENGLISH_TEST", "name": "English language test result", "mandatory": True, "state": "missing",
-         "description": "IELTS or TOEFL score report", "accepted_formats": "pdf", "rejection_reason": None,
-         "expires_on": None},
+         "description": "IELTS or TOEFL score report", "accepted_formats": "pdf", "rejection_reason": None},
     ],
     "customer_actionable": ["ENGLISH_TEST"], "with_staff": [],
 }

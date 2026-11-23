@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
-import { ClipboardCheck, FileSearch, GraduationCap, Inbox, LayoutDashboard, LogOut, Menu, MessageSquareText, ScrollText, Sparkles, Users, X } from "lucide-react";
+import { ClipboardCheck, FileSearch, GraduationCap, Inbox, LayoutDashboard, LogOut, Menu, MessageSquareText, Sparkles, Users, X } from "lucide-react";
 import { Suspense, useEffect, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { CommandPalette, NotificationBell, ThemeToggle } from "../components/chrome";
@@ -43,7 +43,6 @@ export function AdminLayout() {
     { to: "/admin/inbox", label: "Inbox", icon: Inbox, count: stats?.unread_customer_messages },
     { to: "/admin/customers", label: "Customers", icon: Users },
     { to: "/admin/programmes", label: "Programmes", icon: MessageSquareText },
-    { to: "/admin/audit", label: "Audit log", icon: ScrollText },
   ];
 
   const sidebar = (

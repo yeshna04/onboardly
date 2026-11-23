@@ -56,7 +56,7 @@ export default function Messages() {
                       <span className="font-medium">{mine ? "You" : "Onboarding team"}</span><span>{fmtDateTime(m.created_at)}</span>
                       {!mine && <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" aria-label="Approved by staff" />}
                     </div>
-                    {!mine && <div className="text-sm font-semibold">{m.subject}</div>}
+                    {!mine && m.reminder_draft_id && <div className="text-sm font-semibold">{m.subject}</div>}
                     <div className="whitespace-pre-wrap text-sm leading-6">{m.body}</div>
                   </div>
                 </motion.div>

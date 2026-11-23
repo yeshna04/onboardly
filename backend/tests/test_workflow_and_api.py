@@ -164,6 +164,27 @@ class ApiTests(unittest.TestCase):
         self.assertIn("message_id", json.loads(audit["details_json"]))
         conn.close()
 
+    def test_tc29_officer_message_needs_no_subject_and_report_uses_step_names(self):
+        """TC29: officer sends a chat message with only text → stored with a default subject, customer notified;
+        CSV report shows 'Enrolled' instead of the internal status 'new'."""
+        self.login(ADMIN_EMAIL, ADMIN_PASSWORD)
+        conn = connect(self.cfg.database_path)
+        e = open_enrolment(conn)
+        conn.close()
+        r = self.client.post(f"/api/admin/enrolments/{e['id']}/messages", headers=self.H,
+                             json={"body": "Hi, just checking in about your documents."})
+        self.assertEqual(r.status_code, 201, r.get_data(as_text=True))
+        conn = connect(self.cfg.database_path)
+        m = query_one(conn, "SELECT subject, body FROM messages WHERE enrolment_id = ? ORDER BY id DESC LIMIT 1",
+                      [e["id"]])
+        self.assertEqual(m["subject"], "Message from your onboarding team")
+        conn.execute("UPDATE enrolments SET status = 'new' WHERE id = ?", [e["id"]])
+        conn.commit()
+        conn.close()
+        csv = self.client.get("/api/admin/reports/onboarding.csv").get_data(as_text=True)
+        self.assertIn(",Enrolled,", csv)
+        self.assertNotIn(",new,", csv)
+
 
 if __name__ == "__main__":
     unittest.main()

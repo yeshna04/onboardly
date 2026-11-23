@@ -6,7 +6,7 @@ export type DocState = "verified" | "submitted" | "needs_review" | "pending" | "
 
 export interface RequiredDocument {
   id: number; programme_id: number; doc_code: string; name: string; description: string; why_needed: string;
-  accepted_formats: string; keywords: string; is_mandatory: number; validity_days: number | null; sort_order: number;
+  accepted_formats: string; keywords: string; is_mandatory: number; sort_order: number;
 }
 export interface Programme {
   id: number; code: string; name: string; description: string; category: string; duration_weeks: number;
@@ -25,7 +25,7 @@ export interface ChecklistItem {
   required_document_id: number; doc_code: string; name: string; description: string; why_needed: string;
   accepted_formats: string; is_mandatory: boolean; state: DocState; state_label: string; submission_id: number | null;
   filename: string | null; match_confidence?: number | null; rejection_reason: string | null; submitted_at: string | null;
-  verified_at: string | null; expires_on: string | null; attempts: number;
+  verified_at: string | null; attempts: number;
 }
 export interface NextStep { kind: "upload" | "wait" | "done" | "cancelled"; title: string; detail: string; doc_code?: string; remaining: number }
 export interface Checklist {

@@ -214,7 +214,6 @@ function DocCard({ item, index, closed, busy, submission, onUpload, onView, due 
               ))}
               <span>sent {timeAgo(submission.created_at)}</span>
               {item.verified_at && item.state === "verified" && <span className="text-emerald-600 dark:text-emerald-400">verified {timeAgo(item.verified_at)}</span>}
-              {item.expires_on && <span>valid until {fmtDate(item.expires_on)}</span>}
             </div>
           )}
           {canUpload && (

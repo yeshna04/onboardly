@@ -10,8 +10,8 @@ import type { Programme, RequiredDocument } from "../../lib/types";
 import { PROGRAMME_GRADIENT, PROGRAMME_ICON } from "../auth/ProgrammePicker";
 import { ProgrammeEditor } from "./ProgrammeEditor";
 
-type DocForm = { doc_code: string; name: string; description: string; why_needed: string; keywords: string; accepted_formats: string; is_mandatory: boolean; validity_days: string };
-const EMPTY: DocForm = { doc_code: "", name: "", description: "", why_needed: "", keywords: "", accepted_formats: "pdf,jpg,png", is_mandatory: true, validity_days: "" };
+type DocForm = { doc_code: string; name: string; description: string; why_needed: string; keywords: string; accepted_formats: string; is_mandatory: boolean };
+const EMPTY: DocForm = { doc_code: "", name: "", description: "", why_needed: "", keywords: "", accepted_formats: "pdf,jpg,png", is_mandatory: true };
 
 export default function Programmes() {
   const { data, error, loading, reload } = useApi<{ items: Programme[] }>("/api/admin/programmes");
@@ -27,12 +27,12 @@ export default function Programmes() {
   const open = (programme: Programme, doc: RequiredDocument | null) => {
     setEditing({ programme, doc }); setErrors({});
     setForm(doc ? { doc_code: doc.doc_code, name: doc.name, description: doc.description, why_needed: doc.why_needed, keywords: doc.keywords,
-      accepted_formats: doc.accepted_formats, is_mandatory: !!doc.is_mandatory, validity_days: doc.validity_days ? String(doc.validity_days) : "" } : EMPTY);
+      accepted_formats: doc.accepted_formats, is_mandatory: !!doc.is_mandatory } : EMPTY);
   };
   const save = async () => {
     if (!editing) return;
     setBusy(true); setErrors({});
-    const body = { ...form, validity_days: form.validity_days ? Number(form.validity_days) : null };
+    const body = { ...form };
     try {
       if (editing.doc) await api.patch(`/api/admin/documents/${editing.doc.id}`, body);
       else await api.post(`/api/admin/programmes/${editing.programme.id}/documents`, body);
@@ -67,7 +67,7 @@ export default function Programmes() {
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2 text-sm font-medium">{d.name}<span className="font-mono text-[11px] text-stone-400">{d.doc_code}</span>
                         {d.is_mandatory ? <Badge tone="brand" className="!py-0 text-[10px]">required</Badge> : <Badge className="!py-0 text-[10px]">optional</Badge>}
-                        {d.validity_days && <Badge tone="amber" className="!py-0 text-[10px]">valid {d.validity_days}d</Badge>}</div>
+</div>
                       <div className="muted mt-0.5 line-clamp-1 text-xs">{d.keywords}</div>
                     </div>
                     <div className="flex opacity-0 transition group-hover:opacity-100">
@@ -91,8 +91,7 @@ export default function Programmes() {
           <Field label="Description (shown to customers)" error={errors.description} className="sm:col-span-2"><textarea className="input min-h-[70px]" value={form.description} onChange={set("description")} /></Field>
           <Field label="Why we need it" error={errors.why_needed} className="sm:col-span-2"><input className="input" value={form.why_needed} onChange={set("why_needed")} /></Field>
           <Field label="NLP keywords (comma-separated)" error={errors.keywords} className="sm:col-span-2" hint="Phrases customers use for this document, e.g. “visa letter, cas, offer letter”."><input className="input" value={form.keywords} onChange={set("keywords")} /></Field>
-          <Field label="Accepted formats" error={errors.accepted_formats}><input className="input" value={form.accepted_formats} onChange={set("accepted_formats")} /></Field>
-          <Field label="Valid for (days, optional)" error={errors.validity_days}><input className="input" type="number" min={1} value={form.validity_days} onChange={set("validity_days")} /></Field>
+          <Field label="Accepted formats" error={errors.accepted_formats} className="sm:col-span-2"><input className="input" value={form.accepted_formats} onChange={set("accepted_formats")} /></Field>
           <label className="flex items-center gap-2 text-sm sm:col-span-2"><input type="checkbox" className="h-4 w-4 rounded accent-brand-600" checked={form.is_mandatory} onChange={(e) => setForm({ ...form, is_mandatory: e.target.checked })} />Mandatory for completion</label>
         </div>
       </Modal>

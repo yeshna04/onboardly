@@ -103,7 +103,7 @@ enforced with `CHECK` constraints. The full schema is in [`backend/db/schema.sql
 | Folder | Responsibility |
 |---|---|
 | `app/routes/` | HTTP endpoints only: input validation, role checks, JSON in/out |
-| `app/services/checklist.py` | Pure checklist comparison (required vs. submitted, expiry, status rules) |
+| `app/services/checklist.py` | Pure checklist comparison (required vs. submitted, best submission per item, status rules) |
 | `app/services/documents.py` | Uploads (type and size checks), NLP classification, intake-text processing |
 | `app/services/ai_workflow.py` | The 7-step AI pipeline above, with timings for the trace view |
 | `app/nlp/` | Cleaning, tokenising and stemming; PII masking; TF-IDF cosine similarity; phrase/fuzzy matching; date, score and amount entities; submission cues; intent rules; service detection |
