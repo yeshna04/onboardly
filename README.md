@@ -8,7 +8,7 @@ control of every message.
 | | |
 |---|---|
 | **Repository** | https://github.com/yeshna04/onboardly |
-| **Live demo** | _add the Render URL here after deploying, see [docs/DEPLOY.md](docs/DEPLOY.md)_ |
+| **Live demo** | https://customer-onboarding-dplp.onrender.com/login |
 | **Stack** | Python 3.11 · Flask · sqlite3 · pandas · Anthropic SDK / Gemini REST · React 18 + Vite + TypeScript + Tailwind |
 
 ## What it does
