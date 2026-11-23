@@ -1,4 +1,4 @@
-# Customer Onboarding Checklist Assistant (Project 040)
+# Customer Onboarding Checklist Assistant
 
 This app creates customer onboarding checklists from the programme a learner selects and the
 documents that programme requires. It reads what learners send with NLP, uses an LLM (Claude or
